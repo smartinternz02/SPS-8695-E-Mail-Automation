@@ -1,0 +1,87 @@
+﻿<process name="Email Automation" version="1.0" bpversion="6.9.0.26970" narrative="To send email to end user with attachments" byrefcollection="true" preferredid="946ba73e-43ce-446f-8a67-e0146851e35d">
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <stage stageid="c6472e8c-642f-476e-a0b0-372dbd4e4bcd" name="Start" type="Start">
+    <display x="15" y="-105" />
+    <onsuccess>7fc668c9-d927-439f-8758-df7e5adea1ff</onsuccess>
+  </stage>
+  <stage stageid="19f573fe-8f43-48a1-8ebf-c6f45c46e244" name="End" type="End">
+    <display x="15" y="90" />
+  </stage>
+  <stage stageid="c1c91006-a18e-4e24-867a-a16479b75a96" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="e9188f88-233c-42fc-aada-f8a5a418faeb" name="Attachment Files" type="Collection">
+    <display x="-210" y="-30" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+    <collectioninfo>
+      <field name="Path" type="text" />
+    </collectioninfo>
+    <initialvalue>
+      <row>
+        <field name="Path" type="text" value="C:\Users\Admin\Desktop\Attachment\Blue Prism Guide.pdf.pdf" />
+      </row>
+    </initialvalue>
+  </stage>
+  <stage stageid="7fc668c9-d927-439f-8758-df7e5adea1ff" name="Configure Email Server" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-45" />
+    <inputs>
+      <input type="text" name="Username" friendlyname="Username" narrative="The POP3 and SMTP Username" expr="[Username]" />
+      <input type="password" name="Password" friendlyname="Password" narrative="The POP3 and SMTP Password" expr="[Password]" />
+      <input type="text" name="POP3 Server" friendlyname="POP3 Server" narrative="The POP3 Server address e.g. pop.domain.com" expr="&quot;pop.gmail.com&quot;" />
+      <input type="text" name="SMTP Server" friendlyname="SMTP Server" narrative="The SMTP Server address e.g. smtp.domain.com" expr="&quot;smtp.gmail.com&quot;" />
+      <input type="number" name="POP3 Port" friendlyname="POP3 Port" narrative="The POP3 Port, e.g. 110 or 995" expr="995" />
+      <input type="number" name="SMTP Port" friendlyname="SMTP Port" narrative="The SMTP Port, e.g 25 or 465" expr="587" />
+      <input type="flag" name="POP3 UseSSL" friendlyname="POP3 UseSSL" narrative="Whether to use SSL for POP3" expr="True" />
+      <input type="flag" name="SMTP UseSSL" friendlyname="SMTP UseSSL" narrative="Whether to use SSL for SMTP" expr="True" />
+    </inputs>
+    <onsuccess>bf72779e-aaf7-4a76-ba98-8c46fb1fff07</onsuccess>
+    <resource object="Email - POP3/SMTP" action="Configure" />
+  </stage>
+  <stage stageid="626897a0-dbbd-4614-8e68-10a797f81bad" name="Username" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-225" y="15" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">harshbansal.cse@cumail.in</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="d4136a55-4708-4ac2-9ae4-d0ec7f7aa970" name="Password" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-240" y="60" />
+    <datatype>password</datatype>
+    <initialvalueenc>2,26,26,70,2,88,1,17,40,26,26,81,1,122,58,37,112,71,71</initialvalueenc>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="14e4007b-4e2b-48aa-9b6d-bf25bf8e59fd" name="To" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="-255" y="105" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">harshbansal@live.com</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="bf72779e-aaf7-4a76-ba98-8c46fb1fff07" name="Email - POP3/SMTP::Send Message" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="0" />
+    <inputs>
+      <input type="text" name="From" friendlyname="From" narrative="The email address of the sender." expr="[Username]" />
+      <input type="text" name="To" friendlyname="To" narrative="The email address of the recipient. To address multiple recipients use the format &quot;john.smith@example.com, henry.jones@example.com&quot; OR &quot;John Smith &lt;john.smith@example.com&gt;, Henry Jones &lt;henry.jones@example.com&gt;&quot;." expr="[To]" />
+      <input type="text" name="Subject" friendlyname="Subject" narrative="The subject of the email." expr="&quot;Test Email&quot;" />
+      <input type="text" name="Body" friendlyname="Body" narrative="The body of the email." expr="&quot;This email contains attachment&quot;" />
+      <input type="collection" name="Attachments" friendlyname="Attachments" narrative="A Collection containing a list of files to add to the email as attachments." expr="[Attachment Files]" />
+      <input type="flag" name="BodyIsHTML" friendlyname="BodyIsHTML" narrative="Indicates if the body should be sent as HTML" expr="False" />
+    </inputs>
+    <onsuccess>19f573fe-8f43-48a1-8ebf-c6f45c46e244</onsuccess>
+    <resource object="Email - POP3/SMTP" action="Send Message" />
+  </stage>
+</process>
